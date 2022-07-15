@@ -1,0 +1,5 @@
+export const LOGIN_PATH='/login'
+export const SIGNUP_PATH='/signup'
+export const HOME_PATH='/home'
+export const USER_PATH='/user'
+export const TEAM_PATH='/teams'
