@@ -17,7 +17,7 @@ const rootReducer = createSlice({
   initialState: initialState,
   reducers: {
     handleKeys(state, action) {
-      state[action.payload.key] = state[action.payload.value];
+      state[action.payload.key] = action.payload.value;
     },
     signUpSuccess(state, action) {
       const { payload } = action;
@@ -35,6 +35,7 @@ const rootReducer = createSlice({
       (state.loggedInUserDetails = {}),
         (state.isLoggedIn = false),
         (state.userToken = "");
+        state.teamListDetails=[]
     },
   },
   extraReducers(builder) {

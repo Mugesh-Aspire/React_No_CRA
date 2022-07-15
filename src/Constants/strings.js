@@ -8,7 +8,11 @@ export const globalLabels = {
     EXISTING_USER: 'Existing user please',
     VIEW_DETAILS:'View Details',
     DELETE:'Delete',
-    NO_RECORDS_FOUND:'No records found'
+    NO_RECORDS_FOUND:'No records found',
+    CREATE_TEAM:'Create team',
+    VIEW_TEAM:'View team',
+    TEAM_LIST:'Team list',
+    CLOSE:'Close'
 }
 
 

@@ -14,9 +14,8 @@ import TeamList from '../AppComponents/ListTeams.tsx'
 export default function RouterComponent(props) {
 
     return <Routes>
-        <Route path="/" element={<TeamList />} />
+        <Route path="/" element={<Home />} />
         <Route path={HOME_PATH} element={<PrivateRoute><Home/></PrivateRoute>} />
-        {/* <Route path={USER_PATH} element={<PrivateRoute><MyAccount/></PrivateRoute>} /> */}
         <Route path={LOGIN_PATH} element={<PublicRoute><Login/></PublicRoute>} />
         <Route path={SIGNUP_PATH} element={<PublicRoute><Signup/></PublicRoute>} />
         <Route path={TEAM_PATH} element={<PrivateRoute><TeamList/></PrivateRoute>} />
