@@ -1,8 +1,9 @@
-import React,{useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { hasStorage,getStorage } from './Storage/localStorage'
+import { hasStorage, getStorage } from './Storage/localStorage'
 import RouterComponent from './Routes/RouterComponent.tsx'
+import { handleKeys } from './ReduxStore/reducer.tsx'
 
 export default function AuthenticationScreen() {
     const dispatch = useDispatch()
@@ -17,9 +18,8 @@ export default function AuthenticationScreen() {
 
     const handleLoad = () => {
         if (hasStorage('userToken')) {
-            // dispatch(handleKeys('isLoggedIn', true))
             let userData = getStorage('loggedInUserDetails')
-            // dispatch(handleKeys('loggedInUserDetails',JSON.parse( userData)))
+            dispatch(handleKeys({ key: 'loggedInUserDetails', value: JSON.parse(userData) }))
         }
     }
     return <div className='h-100'>

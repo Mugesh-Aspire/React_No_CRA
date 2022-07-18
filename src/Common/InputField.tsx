@@ -34,7 +34,7 @@ export default function InputField({
       <Form.Item
         label={label}
         name={name}
-        rules={[{ required: required, message:errMessage }]}
+        rules={[{ required: required}]}
       >
         <Input
           type={inputType}

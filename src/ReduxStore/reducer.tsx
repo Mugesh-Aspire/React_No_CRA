@@ -28,17 +28,15 @@ const rootReducer = createSlice({
     },
     loginSuccess(state, action) {
       const { payload } = action;
-      (state.loggedInUserDetails = payload.userDetails),
+      (state.loggedInUserDetails = {...payload}),
         (state.isLoggedIn = true),
-        (state.userToken = payload.userDetails.userToken);
+        (state.userToken = payload.userToken);
     },
     logoutSuccess(state) {
       (state.loggedInUserDetails = {}),
         (state.isLoggedIn = false),
         (state.userToken = "");
         state.teamListDetails=[]
-        removeStorage('userDetails')
-        removeStorage('userToken')
     },
   },
   extraReducers(builder) {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { ColumnsType } from 'antd/es/table';
 import { Button, Table, Form } from 'antd';
@@ -97,7 +97,7 @@ export default function ListTeams() {
   const onFinish = (e) => {
     let updatedStartDate = getDateFormat(e[globalLabels.START_DATE])
     let updatedEndDate = getDateFormat(e[globalLabels.END_DATE])
-    let updatedTeamList =[...teamList, {...e,[globalLabels.START_DATE]:updatedStartDate,[globalLabels.END_DATE]:updatedEndDate}]
+    let updatedTeamList = [...teamList, { ...e, [globalLabels.START_DATE]: updatedStartDate, [globalLabels.END_DATE]: updatedEndDate }]
     dispatch(handleKeys({ key: 'teamListDetails', value: updatedTeamList }))
     createFormRef.current.resetFields()
     handleModalClose()
@@ -194,7 +194,7 @@ export default function ListTeams() {
               isVisible={selectedModalName ? true : false}
               handleCancel={handleModalClose}
               title={selectedModalName}
-              successButtonLabel={globalLabels.SAVE}
+              successButtonLabel={selectedModalName === globalLabels.CREATE_TEAM ? globalLabels.SAVE : ''}
               formName="createTeamForm"
             >
               {renderModalChildren()}

@@ -21,12 +21,12 @@ export default function Signup() {
     {
       name: "userName",
       // value: userName,
-      placeholder: "Username",
+      placeholder: "Please enter Username",
       suffix: <UserOutlined />,
     },
     {
       name: "userEmail",
-      placeholder: "Email",
+      placeholder: "Please enter Email",
       suffix: <MailOutlined />,
     },
   ];
@@ -39,8 +39,9 @@ export default function Signup() {
     };
     if (signUpValidation(userObj)) {
       let userDetails = {
-        name: userName,
+        userName: userName,
         email: userEmail,
+        password: password,
         userToken: generateUniqueId(),
       };
       setStorage("userDetails", JSON.stringify(userDetails));
@@ -55,10 +56,10 @@ export default function Signup() {
   return (
     <div className="d-flex flex-direction-row p-3">
       <img src="images/signup.png" alt="login" className="authPicture" />
-      <div className="d-flex flex-column justify-content-center w-100">
+      <div className="d-flex flex-column justify-content-center w-100 p-3">
         <label className="p-2 font-weight-bold">{globalLabels.SIGN_UP}</label>
         <div className="d-flex justify-content-center">
-          <div >
+          <div className='w-75'>
             <Form
               name="signupForm"
               id="signupForm"
@@ -79,6 +80,7 @@ export default function Signup() {
                         label={item.name}
                         containerClassName="col"
                         suffixIcon={item.suffix}
+                        placeholder={item.placeholder}
                       />
                     </div>
                   );
