@@ -1,37 +1,53 @@
 import React, { Component } from "react";
-import { Input } from "antd";
-import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
+import { Input, Form } from "antd";
 
 interface InputField {
   name: string;
+  label: string;
   status?: string;
   placeholder: string;
   inputClassName: string;
   prefixIcon?: Component;
   suffixIcon?: Component;
-  onChange: Function;
+  disabled: boolean
+  inputType?: string
+  onChange?:Function
 }
 
 export default function InputField({
   status,
+  label='',
+  onChange,
   name = "",
+  inputType = 'text',
   placeholder = "",
   prefixIcon,
-  onChange,
   inputClassName = "",
   suffixIcon,
+  disabled = false,
+  containerClassName = 'd-flex align-items-center py-2',
+  required=true,
+  errMessage=''
 }) {
   return (
-    <div className="d-flex align-items-center py-2">
-      <Input
+    <div className={containerClassName}>
+      <Form.Item
+        label={label}
         name={name}
-        className={inputClassName}
-        suffix={suffixIcon}
-        status={status}
-        placeholder={placeholder}
-        prefix={prefixIcon}
-        onChange={onChange}
-      />
+        rules={[{ required: required, message:errMessage }]}
+      >
+        <Input
+          type={inputType}
+          name={name}
+          onChange={onChange}
+          className={inputClassName}
+          suffix={suffixIcon}
+          status={status}
+          placeholder={placeholder}
+          prefix={prefixIcon}
+          disabled={disabled}
+        />
+      </Form.Item>
     </div>
   );
 }

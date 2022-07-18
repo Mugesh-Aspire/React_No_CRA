@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 
-import { HOME_PATH } from './RoutePath'
+import { TEAM_PATH } from './RoutePath'
 
 interface PublicRoute {
     children: Component
@@ -11,6 +11,5 @@ interface PublicRoute {
 export default function PublicRoute({ children}) {
 
     const isLogged = useSelector((state:any) => state.isLoggedIn)
-    
-    return isLogged? <Navigate to={HOME_PATH} />:children
+    return isLogged? <Navigate to={TEAM_PATH} />:children
 }

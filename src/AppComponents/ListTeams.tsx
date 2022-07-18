@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { ColumnsType } from 'antd/es/table';
-import { Button, Table, } from 'antd';
+import { Button, Table, Form } from 'antd';
 import _isEmpty from 'lodash/isEmpty'
 
 import { fetchTeamList, handleKeys, logoutSuccess } from '../ReduxStore/reducer.tsx'
-import { globalLabels } from '../Constants/strings'
+import { globalLabels, validationMessages } from '../Constants/strings'
 import Loading from "../Common/LoadingSpinner.tsx";
 import NoRecords from "../Common/NoRecords.tsx";
 import CustomModal from "../Common/CustomModal.tsx";
+import CreateTeam from "./CreateTeam/CreateTeam.tsx";
+import { toast } from "react-toastify";
+import { getDateFormat } from "../Common/Functions";
 
 interface DataType {
   key: string;
@@ -25,6 +28,7 @@ export default function ListTeams() {
   const teamListLoading = useSelector((state: any) => state.teamListLoading)
   const [selectedModalName, setSelectedModalName] = useState('')
   const [selectedTeam, setSelectedTeam] = useState({})
+  const createFormRef = useRef('')
 
   const columns: ColumnsType<DataType> = [
     {
@@ -90,6 +94,19 @@ export default function ListTeams() {
   const handleModalClose = () => {
     setSelectedModalName('')
   }
+  const onFinish = (e) => {
+    let updatedStartDate = getDateFormat(e[globalLabels.START_DATE])
+    let updatedEndDate = getDateFormat(e[globalLabels.END_DATE])
+    let updatedTeamList =[...teamList, {...e,[globalLabels.START_DATE]:updatedStartDate,[globalLabels.END_DATE]:updatedEndDate}]
+    dispatch(handleKeys({ key: 'teamListDetails', value: updatedTeamList }))
+    createFormRef.current.resetFields()
+    handleModalClose()
+
+  }
+  const onFinishFailed = (e) => {
+    toast(validationMessages.PLEASE_FILL_ALL_DETAILS)
+
+  }
   const renderModalChildren = () => {
     const {
       TeamName,
@@ -136,7 +153,19 @@ export default function ListTeams() {
       </div>
     } else {
       return <div>
-
+        <Form
+          name="createTeamForm"
+          ref={createFormRef}
+          id="createTeamForm"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
+        >
+          <CreateTeam ref={createFormRef} />
+        </Form>
       </div>
     }
   }
@@ -154,7 +183,7 @@ export default function ListTeams() {
             <NoRecords /> : <div className="p-3">
             <h3>{globalLabels.TEAM_LIST}</h3>
             <div className="d-flex justify-content-end">
-              <Button size="middle" onClick={onPressCreateTeam} type="primary" className="mx-2">
+              <Button size="middle" type="primary" className="mx-2" onClick={onPressCreateTeam}>
                 {globalLabels.CREATE_TEAM}
               </Button>
             </div>
@@ -164,6 +193,9 @@ export default function ListTeams() {
             <CustomModal
               isVisible={selectedModalName ? true : false}
               handleCancel={handleModalClose}
+              title={selectedModalName}
+              successButtonLabel={globalLabels.SAVE}
+              formName="createTeamForm"
             >
               {renderModalChildren()}
             </CustomModal>

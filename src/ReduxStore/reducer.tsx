@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
 import { API_METHODS } from "../Constants/strings";
 import client from "../request";
-
+import { removeStorage } from "../Storage/localStorage";
 import initialState from "./initialState";
 
 export const fetchTeamList = createAsyncThunk(
@@ -36,6 +37,8 @@ const rootReducer = createSlice({
         (state.isLoggedIn = false),
         (state.userToken = "");
         state.teamListDetails=[]
+        removeStorage('userDetails')
+        removeStorage('userToken')
     },
   },
   extraReducers(builder) {
@@ -43,7 +46,7 @@ const rootReducer = createSlice({
       state.teamListLoading = true;
     });
     builder.addCase(fetchTeamList.fulfilled, (state, action) => {
-      state.teamListDetails = action.payload;
+      state.teamListDetails =state.teamListDetails.length?state.teamListDetails: action.payload;
       state.teamListLoading = false;
     });
     builder.addCase(fetchTeamList.rejected, (state) => {
